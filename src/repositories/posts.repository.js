@@ -1,16 +1,18 @@
-import { prisma } from '../utils/prisma/index.js';
-
 export class PostsRepository {
+  constructor(prisma) {
+    this.prisma = prisma;
+  }
+
   findAllPosts = async () => {
     // ORM인 Prisma에서 Posts 모델의 findMany 메서드를 사용해 데이터를 요청합니다.
-    const posts = await prisma.posts.findMany();
+    const posts = await this.prisma.posts.findMany();
 
     return posts;
   };
 
   findPostById = async (postId) => {
     // ORM인 Prisma에서 Posts 모델의 findUnique 메서드를 사용해 데이터를 요청합니다.
-    const post = await prisma.posts.findUnique({
+    const post = await this.prisma.posts.findUnique({
       where: { postId: +postId },
     });
 
@@ -19,7 +21,7 @@ export class PostsRepository {
 
   createPost = async (nickname, password, title, content) => {
     // ORM인 Prisma에서 Posts 모델의 create 메서드를 사용해 데이터를 요청합니다.
-    const createdPost = await prisma.posts.create({
+    const createdPost = await this.prisma.posts.create({
       data: {
         nickname,
         password,
@@ -33,7 +35,7 @@ export class PostsRepository {
 
   updatePost = async (postId, password, title, content) => {
     // ORM인 Prisma에서 Posts 모델의 update 메서드를 사용해 데이터를 수정합니다.
-    const updatedPost = await prisma.posts.update({
+    const updatedPost = await this.prisma.posts.update({
       where: {
         postId: +postId,
         password: password,
@@ -49,7 +51,7 @@ export class PostsRepository {
 
   deletePost = async (postId, password) => {
     // ORM인 Prisma에서 Posts 모델의 delete 메서드를 사용해 데이터를 삭제합니다.
-    const deletedPost = await prisma.posts.delete({
+    const deletedPost = await this.prisma.posts.delete({
       where: {
         postId: +postId,
         password: password,

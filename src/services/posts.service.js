@@ -1,9 +1,8 @@
-// src/services/posts.service.js
-
-import { PostsRepository } from '../repositories/posts.repository.js';
-
 export class PostsService {
-  postsRepository = new PostsRepository();
+
+  constructor(postsRepository) {
+    this.postsRepository = postsRepository;
+  }
 
   findAllPosts = async () => {
     // 저장소(Repository)에게 데이터를 요청합니다.
